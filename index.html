@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swim Workout Selector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .filter-container {
+            margin: 20px;
+        }
+        select, button {
+            padding: 10px;
+            margin: 10px;
+        }
+        .workout-list {
+            margin-top: 20px;
+        }
+        .workout {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Swim Workout Selector</h1>
+    <div class="filter-container">
+        <label for="trainingType">Training Type:</label>
+        <select id="trainingType">
+            <option value="">Select...</option>
+            <option value="Recovery / Easy Swimming">Recovery / Easy Swimming</option>
+            <option value="Aerobic Base Training">Aerobic Base Training</option>
+            <option value="Threshold Training">Threshold Training</option>
+            <option value="VO2 Max Training">VO2 Max Training</option>
+            <option value="Anaerobic & Speed Training">Anaerobic & Speed Training</option>
+            <option value="Race-Pace Training">Race-Pace Training</option>
+            <option value="Kicking & Strength Training">Kicking & Strength Training</option>
+        </select>
+
+        <label for="distance">Total Distance:</label>
+        <select id="distance">
+            <option value="">Select...</option>
+            <option value="500">500m</option>
+            <option value="1000">1000m</option>
+            <option value="1500">1500m</option>
+            <option value="2000">2000m</option>
+            <option value="2500">2500m</option>
+            <option value="3000">3000m</option>
+            <option value="3500">3500m</option>
+            <option value="4000">4000m</option>
+            <option value="4500">4500m</option>
+            <option value="5000">5000m</option>
+        </select>
+
+        <label for="difficulty">Difficulty Level:</label>
+        <select id="difficulty">
+            <option value="">Select...</option>
+            <option value="1">1 - Very Easy</option>
+            <option value="2">2 - Easy</option>
+            <option value="3">3 - Moderate</option>
+            <option value="4">4 - Hard</option>
+            <option value="5">5 - Very Hard</option>
+        </select>
+
+        <button onclick="filterWorkouts()">Find Workouts</button>
+    </div>
+
+    <div class="workout-list" id="workoutList">
+        <!-- Workouts will be displayed here -->
+    </div>
+
+    <script>
+        const workouts = [
+            { name: "Sprint Endurance Set", type: "Anaerobic & Speed Training", distance: 2000, difficulty: 4, description: "10x50m sprints with 30s rest" },
+            { name: "Recovery Swim", type: "Recovery / Easy Swimming", distance: 1500, difficulty: 1, description: "Smooth, continuous swim with drills" },
+            { name: "VO2 Max Set", type: "VO2 Max Training", distance: 2500, difficulty: 5, description: "5x100m at max effort with 1-minute rest" },
+            { name: "Threshold Endurance", type: "Threshold Training", distance: 3000, difficulty: 3, description: "3x800m steady pace" },
+            { name: "Kick Strength Set", type: "Kicking & Strength Training", distance: 1000, difficulty: 2, description: "8x100m kick with fins" }
+        ];
+
+        function filterWorkouts() {
+            const type = document.getElementById("trainingType").value;
+            const distance = document.getElementById("distance").value;
+            const difficulty = document.getElementById("difficulty").value;
+            const workoutList = document.getElementById("workoutList");
+            workoutList.innerHTML = "";
+
+            const filteredWorkouts = workouts.filter(w => 
+                (type === "" || w.type === type) && 
+                (distance === "" || w.distance == distance) && 
+                (difficulty === "" || w.difficulty == difficulty)
+            );
+
+            if (filteredWorkouts.length === 0) {
+                workoutList.innerHTML = "<p>No workouts match your criteria.</p>";
+            } else {
+                filteredWorkouts.forEach(workout => {
+                    const div = document.createElement("div");
+                    div.classList.add("workout");
+                    div.innerHTML = `<h3>${workout.name}</h3>
+                                     <p><strong>Type:</strong> ${workout.type}</p>
+                                     <p><strong>Distance:</strong> ${workout.distance}m</p>
+                                     <p><strong>Difficulty:</strong> ${workout.difficulty}</p>
+                                     <p>${workout.description}</p>`;
+                    workoutList.appendChild(div);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
